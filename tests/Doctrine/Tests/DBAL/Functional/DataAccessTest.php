@@ -419,11 +419,18 @@ class DataAccessTest extends DbalFunctionalTestCase
 
     public function testExecuteQueryBindDateTimeType(): void
     {
+<<<<<<< HEAD:tests/Doctrine/Tests/DBAL/Functional/DataAccessTest.php
         $sql  = 'SELECT count(*) AS c FROM fetch_table WHERE test_datetime = ?';
         $stmt = $this->connection->executeQuery(
             $sql,
             [1 => new DateTime('2010-01-01 10:10:10')],
             [1 => Types::DATETIME_MUTABLE]
+=======
+        $value = $this->connection->fetchOne(
+            'SELECT count(*) AS c FROM fetch_table WHERE test_datetime = ?',
+            [new DateTime('2010-01-01 10:10:10')],
+            [Types::DATETIME_MUTABLE]
+>>>>>>> 4fbd7accf (Port SQL parser from PDO):tests/Functional/DataAccessTest.php
         );
 
         self::assertEquals(1, $stmt->fetchColumn());
@@ -435,21 +442,27 @@ class DataAccessTest extends DbalFunctionalTestCase
 
         $sql          = 'INSERT INTO fetch_table (test_int, test_string, test_datetime) VALUES (?, ?, ?)';
         $affectedRows = $this->connection->executeStatement($sql, [
-            1 => 50,
-            2 => 'foo',
-            3 => $datetime,
+            50,
+            'foo',
+            $datetime,
         ], [
-            1 => ParameterType::INTEGER,
-            2 => ParameterType::STRING,
-            3 => Types::DATETIME_MUTABLE,
+            ParameterType::INTEGER,
+            ParameterType::STRING,
+            Types::DATETIME_MUTABLE,
         ]);
 
         self::assertEquals(1, $affectedRows);
         self::assertEquals(1, $this->connection->executeQuery(
             'SELECT count(*) AS c FROM fetch_table WHERE test_datetime = ?',
+<<<<<<< HEAD:tests/Doctrine/Tests/DBAL/Functional/DataAccessTest.php
             [1 => $datetime],
             [1 => Types::DATETIME_MUTABLE]
         )->fetchColumn());
+=======
+            [$datetime],
+            [Types::DATETIME_MUTABLE]
+        )->fetchOne());
+>>>>>>> 4fbd7accf (Port SQL parser from PDO):tests/Functional/DataAccessTest.php
     }
 
     public function testPrepareQueryBindValueDateTimeType(): void

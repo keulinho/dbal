@@ -5,8 +5,36 @@ namespace Doctrine\Tests\DBAL;
 use Doctrine\DBAL\Driver\OCI8\Statement;
 use Doctrine\Tests\DbalTestCase;
 
+<<<<<<< HEAD:tests/Doctrine/Tests/DBAL/UtilTest.php
 class UtilTest extends DbalTestCase
 {
+=======
+use Doctrine\DBAL\Driver\OCI8\ConvertPositionalToNamedPlaceholders;
+use Doctrine\DBAL\SQL\Parser;
+use PHPUnit\Framework\TestCase;
+
+class ConvertPositionalToNamedPlaceholdersTest extends TestCase
+{
+    /**
+     * @param mixed[] $expectedOutputParamsMap
+     *
+     * @dataProvider positionalToNamedPlaceholdersProvider
+     */
+    public function testConvertPositionalToNamedParameters(
+        string $inputSQL,
+        string $expectedOutputSQL,
+        array $expectedOutputParamsMap
+    ): void {
+        $parser  = new Parser(false);
+        $visitor = new ConvertPositionalToNamedPlaceholders();
+
+        $parser->parse($inputSQL, $visitor);
+
+        self::assertEquals($expectedOutputSQL, $visitor->getSQL());
+        self::assertEquals($expectedOutputParamsMap, $visitor->getParameterMap());
+    }
+
+>>>>>>> 4fbd7accf (Port SQL parser from PDO):tests/Driver/OCI8/ConvertPositionalToNamedPlaceholdersTest.php
     /**
      * @return mixed[][]
      */
@@ -65,6 +93,7 @@ class UtilTest extends DbalTestCase
             ],
         ];
     }
+<<<<<<< HEAD:tests/Doctrine/Tests/DBAL/UtilTest.php
 
     /**
      * @param mixed[] $expectedOutputParamsMap
@@ -81,4 +110,6 @@ class UtilTest extends DbalTestCase
         self::assertEquals($expectedOutputSQL, $statement);
         self::assertEquals($expectedOutputParamsMap, $params);
     }
+=======
+>>>>>>> 4fbd7accf (Port SQL parser from PDO):tests/Driver/OCI8/ConvertPositionalToNamedPlaceholdersTest.php
 }
